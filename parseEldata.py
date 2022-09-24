@@ -10,10 +10,10 @@ import time
 import requests
 import paho.mqtt.client as mqtt
 
-broker_address="192.168.x.x"
+broker_address="192.168.1.108"
 broker_port=1885 #Default 1883
 client = mqtt.Client()
-client.username_pw_set(username="username", password="password")   #Add user/passw
+client.username_pw_set(username="hass", password="idkfa6")   #Add user/passw
 client.connect(broker_address,broker_port, 60)
 
 date_time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -25,7 +25,7 @@ url_date = datetime.datetime.now().strftime("%Y-%m-%d")
 def datarequest():
     r = requests.get('https://www.vattenfall.se/api/price/spot/pricearea/'+ url_date + '/' + url_date + '/SN3')      #SN3 defines the zone and is the only one tested, but following will probably work /SE1	/SE2 /SE3 /SE4 /FI/DK1 /DK2
     rdata = r.json()
-    #print(rdata)
+    print("GetFile")
     with open('eldata.json', 'w') as outfile:
         json.dump(rdata, outfile)
 
@@ -38,13 +38,13 @@ def parse(found):
             return(found)
 
         for i in rdata:
+            print(i)
             if re.search(date_time_cut, (i['TimeStamp'])):
                 client.publish("hass/elpris",i["Value"],0,True) #Change topic 
                 found = True
             elif re.search(date_time_cut_hour1, (i['TimeStamp'])):
                 client.publish("hass/elpris_1",i["Value"],0,True) #Change topic 
                 found = True
-                return(found)
 
         if found == False:
             time.sleep(10)
