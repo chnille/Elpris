@@ -23,7 +23,7 @@ date_time_cut_hour1 = ' '.join(date_time_hour1.split(':')[:-2])
 url_date = datetime.datetime.now().strftime("%Y-%m-%d")
 
 def datarequest():
-    r = requests.get('https://www.vattenfall.se/api/price/spot/pricearea/'+ url_date + '/' + url_date + '/SN3')      #SN3 defines the zone and is the only one tested, but following will probably work /SE1	/SE2 /SE3 /SE4 /FI/DK1 /DK2
+    r = requests.get('https://www.vattenfall.se/api/price/spot/pricearea/'+ url_date + '/' + url_date + '/SN3', headers={'User-Agent': 'Mozilla/5.0'})      #SN3 defines the zone and is the only one tested, but following will probably work /SE1	/SE2 /SE3 /SE4 /FI/DK1 /DK2
     rdata = r.json()
     print("GetFile")
     with open('eldata.json', 'w') as outfile:
