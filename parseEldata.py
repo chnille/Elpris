@@ -10,10 +10,10 @@ import time
 import requests
 import paho.mqtt.client as mqtt
 
-broker_address="192.168.1.108"
-broker_port=1885 #Default 1883
+broker_address="192.168.1.x"
+broker_port=1883 #Default 1883
 client = mqtt.Client()
-client.username_pw_set(username="hass", password="idkfa6")   #Add user/passw
+client.username_pw_set(username="user", password="passw")   #Add user/passw
 client.connect(broker_address,broker_port, 60)
 
 date_time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
